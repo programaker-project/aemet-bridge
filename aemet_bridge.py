@@ -65,6 +65,18 @@ def get_min_prediction(place_code, extra_data):
     logging.info('GET min-prediction on {}'.format(place_code))
     return get_all_prediction(place_code, extra_data)['prediccion']['dia'][0]['temperatura']['minima']
 
+@bridge.getter(
+    id="get_prediction_update_time",
+    message="Get prediction elaboration time for %1",
+    arguments=[
+        CallbackBlockArgument(str, get_locations),
+    ],
+    block_result_type=str,
+)
+def get_prediction_update_time(place_code, extra_data):
+    logging.info('GET prediction-update-time on {}'.format(place_code))
+    return get_all_prediction(place_code, extra_data)['elaborado']
+
 
 @bridge.operation(
     id="get_today_rain_probability_in_place",
