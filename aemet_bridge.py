@@ -1,7 +1,12 @@
 import os
 import logging
 import json
-import urllib.request
+from request_cache import DailyRequestCache, DailyTime
+
+REQUEST_CACHE = DailyRequestCache(reset_times=(
+    DailyTime(hour=0),
+    DailyTime(hour=4),
+))
 
 from plaza_bridge import (
     PlazaBridge,  # Import bridge functionality
@@ -102,12 +107,13 @@ def get_rain_prediction(place_code, extra_data):
 # )
 def get_all_prediction(place_code, extra_data):
     # Getter logic
-    r = urllib.request.urlopen("https://opendata.aemet.es/opendata/api/prediccion/especifica/municipio/diaria/{id}?api_key={api_key}"
-                               .format(id=to_aemet_id(place_code), api_key=API_KEY))
-    pointers = json.loads(r.read())
-    data_req = urllib.request.urlopen(pointers['datos'])
+    r = REQUEST_CACHE.request(
+        "https://opendata.aemet.es/opendata/api/prediccion/especifica/municipio/diaria/{id}?api_key={api_key}"
+        .format(id=to_aemet_id(place_code), api_key=API_KEY))
+    pointers = json.loads(r)
+    data_req = REQUEST_CACHE.request(pointers['datos'])
 
-    data = data_req.read().decode('latin1')
+    data = data_req.decode('latin1')
     return json.loads(data)[0]
 
 
