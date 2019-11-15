@@ -3,8 +3,7 @@ import logging
 import json
 from request_cache import DailyRequestCache, DailyTime
 
-REQUEST_CACHE = DailyRequestCache(reset_times=(
-    DailyTime(hour=0),
+REQUEST_CACHE = DailyRequestCache(extra_reset_times=(
     DailyTime(hour=4),
 ))
 
