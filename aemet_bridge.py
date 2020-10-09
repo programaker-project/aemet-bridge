@@ -17,6 +17,7 @@ from plaza_bridge import (
 bridge = PlazaBridge(
     name="AEMET",
     endpoint=os.environ['BRIDGE_ENDPOINT'],
+    token=os.getenv('PLAZA_BRIDGE_AUTH_TOKEN', None),
     is_public=True,
 )
 
