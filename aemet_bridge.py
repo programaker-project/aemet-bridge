@@ -7,17 +7,17 @@ REQUEST_CACHE = DailyRequestCache(extra_reset_times=(
     DailyTime(hour=4),
 ))
 
-from plaza_bridge import (
-    PlazaBridge,  # Import bridge functionality
+from programaker_bridge import (
+    ProgramakerBridge,  # Import bridge functionality
     CallbackBlockArgument,  # Needed for argument definition
     VariableBlockArgument,
     BlockContext,
 )
 
-bridge = PlazaBridge(
+bridge = ProgramakerBridge(
     name="AEMET",
     endpoint=os.environ['BRIDGE_ENDPOINT'],
-    token=os.getenv('PLAZA_BRIDGE_AUTH_TOKEN', None),
+    token=os.getenv('BRIDGE_AUTH_TOKEN', None),
     is_public=True,
 )
 
