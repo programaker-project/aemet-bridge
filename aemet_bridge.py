@@ -83,6 +83,18 @@ def get_prediction_update_time(place_code, extra_data):
     return get_all_prediction(place_code, extra_data)['elaborado']
 
 
+@bridge.getter(
+    id="get_today_rain_probability_in_place_1_",
+    message="Get today's rain probabilities for %1",
+    arguments=[
+        CallbackBlockArgument(str, get_locations),
+    ],
+    block_result_type=list,
+)
+def get_rain_prediction1(place_code, extra_data):
+    logging.info('GET rain-prediction on {}'.format(place_code))
+    return get_all_prediction(place_code, extra_data)['prediccion']['dia'][0]['probPrecipitacion']
+
 @bridge.operation(
     id="get_today_rain_probability_in_place",
     message="Get today's rain probabilities for %1. Save to %2",
@@ -91,6 +103,7 @@ def get_prediction_update_time(place_code, extra_data):
         VariableBlockArgument(list),
     ],
     save_to=BlockContext.ARGUMENTS[1],
+    show_in_toolbox=False,
 )
 def get_rain_prediction(place_code, extra_data):
     logging.info('GET rain-prediction on {}'.format(place_code))
